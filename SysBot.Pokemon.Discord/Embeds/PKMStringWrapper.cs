@@ -125,11 +125,11 @@ internal class PKMStringWrapper<T>(T PKM, TradeEmbedSettings Config, PokeTradeTy
     {
         return type switch
         {
-            PokeTradeType.Clone => "Cloning Pod Activated",
-            PokeTradeType.Dump => "Pokémon Scanner Activated",
-            PokeTradeType.ItemTrade => $"{trader}'s {HeldItem}",
-            PokeTradeType.MysteryEgg => $"{trader}'s Mystery Egg",
-            PokeTradeType.Seed => $"Seed Checker Activated",
+            PokeTradeType.Clone => "Cápsula de Clonación Activada",
+            PokeTradeType.Dump => "Escaner de Pokémon Activado",
+            PokeTradeType.ItemTrade => $"{HeldItem} de {trader}",
+            PokeTradeType.MysteryEgg => $"Huevo Misterioso de {trader}",
+            PokeTradeType.Seed => $"Chequeo de Semilla de {trader}",
             PokeTradeType.Specific or PokeTradeType.Giveaway => $"{trader}'s {(PKM.IsShiny ? "Shiny Pokémon" : $"Pokémon {(PKM.IsEgg ? "Egg" : "")}")}",
             _ => string.Empty
         };
