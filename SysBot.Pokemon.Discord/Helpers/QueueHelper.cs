@@ -28,7 +28,7 @@ public static class QueueHelper<T> where T : PKM, new()
 
         try
         {
-            const string helper = "I've added you to the queue! I'll message you here when your trade is starting.";
+            const string helper = "¡Te he añadido a la cola! Te avisaré por aquí cuando tu intercambio este por empezar.";
             IUserMessage test = await trader.SendMessageAsync(helper).ConfigureAwait(false);
 
             // Try adding
@@ -63,7 +63,7 @@ public static class QueueHelper<T> where T : PKM, new()
                 else
                 {
                     var embedCode = new EmbedBuilder()
-                        .WithTitle("Tu Código de Intercambio será:")
+                        .WithTitle("Tu código de intercambio será:")
                         .WithDescription($"# {code:0000 0000}")
                         .WithTimestamp(DateTimeOffset.Now)
                         .WithThumbnailUrl("https://raw.githubusercontent.com/thatsameatom/sprites/refs/heads/main/tradecode.gif")
@@ -122,7 +122,7 @@ public static class QueueHelper<T> where T : PKM, new()
 
         if (added == QueueResultAdd.AlreadyInQueue)
         {
-            msg = "Sorry, you are already in the queue.";
+            msg = "Lo siento, ya estas en la cola.";
             receiving = string.Empty;
             embed = null;
             return false;
@@ -142,7 +142,7 @@ public static class QueueHelper<T> where T : PKM, new()
             PokeTradeType.Specific or PokeTradeType.Giveaway => $" Recibiendo: {strings.Species[pk.Species]}.",
             _ => string.Empty
         };
-        msg = $"{user.Mention} - Añadido a la cola de {type} {ticketID}. ";
+        msg = $"{user.Mention} - Añadido a la cola de {type}{ticketID}.";
 
         embed = new TradeEmbedBuilder<T>(pk, hub, new QueueUser(trainer.ID, name), type, t);
 
