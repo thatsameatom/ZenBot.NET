@@ -186,7 +186,7 @@ public class PokeTradeBotLGPE(PokeTradeHub<PB7> hub, PokeBotState cfg) : PokeRou
         }
         else
         {
-            detail.SendNotification(this, $"Oops! Something happened. Canceling the trade: {result}.");
+            detail.SendNotification(this, $"¡Vaya! Ha ocurrido un error. Cancelando el intercambio: {result}.");
             detail.TradeCanceled(this, result);
         }
     }

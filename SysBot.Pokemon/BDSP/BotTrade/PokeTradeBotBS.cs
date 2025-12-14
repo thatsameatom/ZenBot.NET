@@ -201,7 +201,7 @@ public class PokeTradeBotBS(PokeTradeHub<PB8> Hub, PokeBotState Config) : PokeRo
         }
         else
         {
-            detail.SendNotification(this, $"Oops! Something happened. Canceling the trade: {result}.");
+            detail.SendNotification(this, $"¡Vaya! Ha ocurrido un error. Cancelando el intercambio: {result}.");
             detail.TradeCanceled(this, result);
         }
     }
