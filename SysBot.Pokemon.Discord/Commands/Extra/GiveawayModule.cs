@@ -163,7 +163,7 @@ public class GiveawayModule<T> : ModuleBase<SocketCommandContext> where T : PKM,
                     sb.AppendLine("```");
                 }
                 if (set.Species is 0)
-                    sb.AppendLine("Species could not be identified. Check your spelling.");
+                    sb.AppendLine("No pude identificar a ese Pokémon. Comprueba que este bien escrito.");
 
                 var msg = sb.ToString();
                 await ReplyAsync(msg).ConfigureAwait(false);

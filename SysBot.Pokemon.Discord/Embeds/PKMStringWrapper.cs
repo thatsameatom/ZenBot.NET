@@ -174,7 +174,7 @@ internal class PKMStringWrapper<T>(T PKM, TradeEmbedSettings Config, PokeTradeTy
     {
         return type switch
         {
-            PokeTradeType.Specific => HasItem ? GetItemImgURL(PKM.HeldItem, false) : string.Empty,
+            PokeTradeType.Specific => HasItem ? GetItemImgURL(PKM.HeldItem, true) : string.Empty,
             PokeTradeType.Clone => "https://raw.githubusercontent.com/Omni-KingZeno/Pokemon-Sprites/refs/heads/main/Bot/clone.png",
             PokeTradeType.Dump => "https://raw.githubusercontent.com/Omni-KingZeno/Pokemon-Sprites/refs/heads/main/Bot/dump.gif",
             PokeTradeType.MysteryEgg => "https://raw.githubusercontent.com/Omni-KingZeno/HomeImages/refs/heads/main/Sprites/128x128/MysteryEgg.png",
