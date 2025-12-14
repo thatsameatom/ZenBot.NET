@@ -284,7 +284,7 @@ public class PokeTradeBotLA(PokeTradeHub<PA8> Hub, PokeBotState Config) : PokeRo
             await SetBoxPokemonAbsolute(BoxStartOffset, toSend, token, sav).ConfigureAwait(false);
         }
 
-        poke.SendNotification(this, $"Found Link Trade partner: **{tradePartner.OT}** (TID: **{tradePartner.TID7}** | SID: **{tradePartner.SID7}**). Waiting for a Pokémon...");
+        poke.SendNotification(this, $"Te encontré **{tradePartner.OT}** (TID: **{tradePartner.TID7}** | SID: **{tradePartner.SID7}**). Esperando que ofrezcas un Pokémon...");
 
         if (poke.Type == PokeTradeType.Dump)
         {

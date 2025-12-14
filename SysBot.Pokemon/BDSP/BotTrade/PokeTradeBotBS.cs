@@ -310,7 +310,7 @@ public class PokeTradeBotBS(PokeTradeHub<PB8> Hub, PokeBotState Config) : PokeRo
                 await Click(A, 0_500, token).ConfigureAwait(false);
         }
 
-        poke.SendNotification(this, $"Found Link Trade partner: **{tradePartner.OT}** (TID: **{tradePartner.TID7}** | SID: **{tradePartner.SID7}**). Waiting for a Pokémon...");
+        poke.SendNotification(this, $"Te encontré **{tradePartner.OT}** (TID: **{tradePartner.TID7}** | SID: **{tradePartner.SID7}**). Esperando que ofrezcas un Pokémon...");
 
         // Requires at least one trade for this pointer to make sense, so cache it here.
         LinkTradePokemonOffset = await SwitchConnection.PointerAll(Offsets.LinkTradePartnerPokemonPointer, token).ConfigureAwait(false);

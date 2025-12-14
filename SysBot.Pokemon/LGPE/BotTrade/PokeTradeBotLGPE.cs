@@ -310,7 +310,7 @@ public class PokeTradeBotLGPE(PokeTradeHub<PB7> hub, PokeBotState cfg) : PokeRou
             return partnerCheck;
         }
 
-        poke.SendNotification(this, $"Found Link Trade partner: **{tradePartner.OT}** (TID: **{tradePartner.TID7}** | SID: **{tradePartner.SID7}**). Waiting for a Pokémon...");
+        poke.SendNotification(this, $"Te encontré **{tradePartner.OT}** (TID: **{tradePartner.TID7}** | SID: **{tradePartner.SID7}**). Esperando que ofrezcas un Pokémon...");
 
         if (poke.Type == PokeTradeType.Dump)
         {
