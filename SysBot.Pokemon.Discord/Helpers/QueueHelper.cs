@@ -65,8 +65,9 @@ public static class QueueHelper<T> where T : PKM, new()
                     var embedCode = new EmbedBuilder()
                         .WithTitle("Tu código de intercambio será:")
                         .WithDescription($"# {code:0000 0000}")
+                        .WithColor(Color.Green)
                         .WithTimestamp(DateTimeOffset.Now)
-                        .WithThumbnailUrl("https://raw.githubusercontent.com/thatsameatom/sprites/refs/heads/main/tradecode.gif")
+                        .WithThumbnailUrl("https://raw.githubusercontent.com/thatsameatom/sprites/refs/heads/main/chara_002_main_m_n_c.webp")
                         .Build();
 
                     await trader.SendMessageAsync($"{msg + receiving}", embed: embedCode).ConfigureAwait(false);
