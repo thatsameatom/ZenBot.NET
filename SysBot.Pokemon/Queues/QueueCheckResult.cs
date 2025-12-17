@@ -18,9 +18,9 @@ public sealed record QueueCheckResult<T>(
     public string GetMessage()
     {
         if (!InQueue || Detail is null)
-            return "You are not in the queue.";
+            return "No estas en la cola.";
         var position = $"{Position}/{QueueCount}";
-        var msg = $"You are in the {Detail.Type} queue! Position: {position} (ID {Detail.Trade.ID})";
+        var msg = $"Estas eb la cola de {Detail.Type}! Posición: {position} (ID {Detail.Trade.ID})";
         var pk = Detail.Trade.TradeData;
         var strings = GameInfo.GetStrings("en");
         var receiving = Detail.Trade.Type switch
