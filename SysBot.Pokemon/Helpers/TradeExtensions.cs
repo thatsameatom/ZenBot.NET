@@ -59,11 +59,11 @@ public class TradeExtensions<T> where T : PKM, new()
         }
 
         //Only override trainer details if user didn't specify OT details in the Showdown/PK9 request
-        if (HasRequestedTrainerDetails(pkm))
-        {
-            Log("Can not apply Partner details: Requested Pokémon already has set Trainer details.");
-            return false;
-        }
+        //if (HasRequestedTrainerDetails(pkm))
+        //{
+        //    Log("Can not apply Partner details: Requested Pokémon already has set Trainer details.");
+        //    return false;
+        //}
 
         pkm.OriginalTrainerName = partner.OT;
         pkm.OriginalTrainerGender = (byte)partner.Gender;

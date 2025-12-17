@@ -20,10 +20,10 @@ public class DiscordTradeNotifier<T>(T Data, PokeTradeTrainerInfo Info, int Code
         if (typeof(T) == typeof(PB7))
         {
             var (attachment, embed) = PictoCodesEmbedBuilder.CreatePictoCodesEmbed(info.PictoCodes);
-            Trader.SendFileAsync(attachment, $"Initializing trade{receive}. Please be ready. Your code is ", false, embed.Build()).ConfigureAwait(false);
+            Trader.SendFileAsync(attachment, $"Inicializando Intercambio{receive}. Por favor, date prisa. Tu código es ", false, embed.Build()).ConfigureAwait(false);
             return;
         }
-        Trader.SendMessageAsync($"Initializing trade{receive}. Please be ready. Your code is **{Code:0000 0000}**.").ConfigureAwait(false);
+        Trader.SendMessageAsync($"Inicializando Intercambio{receive}. Por favor, date prisa. Tu código es **{Code:0000 0000}**.").ConfigureAwait(false);
     }
 
     public void TradeSearching(PokeRoutineExecutor<T> routine, PokeTradeDetail<T> info)
@@ -34,27 +34,27 @@ public class DiscordTradeNotifier<T>(T Data, PokeTradeTrainerInfo Info, int Code
         if (typeof(T) == typeof(PB7))
         {
             var (attachment, embed) = PictoCodesEmbedBuilder.CreatePictoCodesEmbed(info.PictoCodes);
-            Trader.SendFileAsync(attachment, $"I'm waiting for you{trainer}! Your code is ", false, embed.Build()).ConfigureAwait(false);
+            Trader.SendFileAsync(attachment, $"¡Te estoy esperando{trainer}! Tu código es ", false, embed.Build()).ConfigureAwait(false);
             return;
         }
-        Trader.SendMessageAsync($"I'm waiting for you{trainer}! Your code is **{Code:0000 0000}**. My IGN is **{routine.InGameName}**.").ConfigureAwait(false);
+        Trader.SendMessageAsync($"¡Te estoy esperando{trainer}! Tu código es **{Code:0000 0000}**. Mi nombre en el juego es **{routine.InGameName}**.").ConfigureAwait(false);
     }
 
     public void TradeCanceled(PokeRoutineExecutor<T> routine, PokeTradeDetail<T> info, PokeTradeResult msg)
     {
         OnFinish?.Invoke(routine);
-        Trader.SendMessageAsync($"Trade canceled: {msg}").ConfigureAwait(false);
+        Trader.SendMessageAsync($"Intercambio Cancelado: {msg}").ConfigureAwait(false);
     }
 
     public void TradeFinished(PokeRoutineExecutor<T> routine, PokeTradeDetail<T> info, T result)
     {
         OnFinish?.Invoke(routine);
         var tradedToUser = Data.Species;
-        var message = tradedToUser != 0 ? $"Trade finished. Enjoy your {(Species)tradedToUser}!" : "Trade finished!";
+        var message = tradedToUser != 0 ? $"Intercambio Terminado. Disfruta tu {(Species)tradedToUser}!" : "¡Intercambio Terminado!";
         Trader.SendMessageAsync(message).ConfigureAwait(false);
 
         if (result.Species != 0 && Hub.Config.Discord.ReturnPKMs)
-            Trader.SendPKMAsync(result, "Here's what you traded me!").ConfigureAwait(false);
+            Trader.SendPKMAsync(result, "Aqui tienes lo que me intercambiaste:").ConfigureAwait(false);
 
         if (Hub.Config.Discord.UseTradeEmbeds is TradeEmbedDisplay.TradeComplete && info.Type is PokeTradeType.Specific)
         {

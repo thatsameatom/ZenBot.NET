@@ -127,10 +127,10 @@ public class QueueModule<T> : ModuleBase<SocketCommandContext> where T : PKM, ne
     {
         return result switch
         {
-            QueueResultRemove.CurrentlyProcessing => "Looks like you're currently being processed! Did not remove from all queues.",
-            QueueResultRemove.CurrentlyProcessingRemoved => "Looks like you're currently being processed!",
-            QueueResultRemove.Removed => "Removed you from the queue.",
-            _ => "Sorry, you are not currently in the queue.",
+            QueueResultRemove.CurrentlyProcessing => "¡Parece que tu intercambio esta en proceso! No puedo eliminarte de la cola.",
+            QueueResultRemove.CurrentlyProcessingRemoved => "¡Parece que tu intercambio esta en proceso!",
+            QueueResultRemove.Removed => "Te he eliminado de la cola.",
+            _ => "Lo siento, pero no estas en la cola.",
         };
     }
 }

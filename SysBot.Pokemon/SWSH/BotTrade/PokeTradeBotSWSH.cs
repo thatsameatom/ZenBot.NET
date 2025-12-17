@@ -192,7 +192,7 @@ public class PokeTradeBotSWSH(PokeTradeHub<PK8> hub, PokeBotState Config) : Poke
         }
         else
         {
-            detail.SendNotification(this, $"Oops! Something happened. Canceling the trade: {result}.");
+            detail.SendNotification(this, $"¡Vaya! Ha ocurrido un error. Cancelando el intercambio: {result}.");
             detail.TradeCanceled(this, result);
         }
     }

@@ -213,7 +213,7 @@ public class PokeTradeBotLZA(PokeTradeHub<PA9> Hub, PokeBotState Config) : PokeR
         }
         else
         {
-            detail.SendNotification(this, $"Oops! Something happened. Canceling the trade: {result}.");
+            detail.SendNotification(this, $"¡Vaya! Ha ocurrido un error. Cancelando el intercambio: {result}.");
             detail.TradeCanceled(this, result);
         }
     }
@@ -333,7 +333,7 @@ public class PokeTradeBotLZA(PokeTradeHub<PA9> Hub, PokeBotState Config) : PokeR
             await SetBoxPokemonAbsolute(BoxStartOffset, toSend, token, sav).ConfigureAwait(false);
         }
 
-        poke.SendNotification(this, $"Found Link Trade partner: **{tradePartner.OT}** (TID: **{tradePartner.TID7}** | SID: **{tradePartner.SID7}**). Waiting for a Pokémon...");
+        poke.SendNotification(this, $"Te encontré **{tradePartner.OT}** (TID: **{tradePartner.TID7}** | SID: **{tradePartner.SID7}**). Esperando que ofrezcas un Pokémon...");
 
         if (poke.Type == PokeTradeType.Dump)
         {

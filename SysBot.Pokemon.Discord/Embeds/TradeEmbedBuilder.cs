@@ -64,7 +64,7 @@ public class TradeEmbedBuilder<T>(T PKM, PokeTradeHub<T> Hub, QueueUser trader, 
             {
                 Builder.AddField(x =>
                 {
-                    x.Name = "__Details:__";
+                    x.Name = "__Detalles:__";
                     x.Value = fieldValue;
                     x.IsInline = true;
                 });
@@ -73,7 +73,7 @@ public class TradeEmbedBuilder<T>(T PKM, PokeTradeHub<T> Hub, QueueUser trader, 
                 {
                     Builder.AddField(x =>
                     {
-                        x.Name = "__Moves:__";
+                        x.Name = "__Movimientos:__";
                         x.Value = moves;
                         x.IsInline = true;
                     });
@@ -95,45 +95,45 @@ public class TradeEmbedBuilder<T>(T PKM, PokeTradeHub<T> Hub, QueueUser trader, 
     {
         return info switch
         {
-            DisplayedInfo.Ability => $"**Ability:** {Strings.Ability}",
+            DisplayedInfo.Ability => $"**Habilidad:** {Strings.Ability}",
 
-            DisplayedInfo.Alpha when PKM is IAlpha alpha && alpha.IsAlpha => "**Alpha:** Yes",
+            DisplayedInfo.Alpha when PKM is IAlpha alpha && alpha.IsAlpha => "**Alfa:** Sí",
 
             DisplayedInfo.AVs when PKM is IAwakened awakened => GetAwakenedValuesString(awakened),
 
-            DisplayedInfo.Ball => $"**Ball:** {GameInfo.Strings.balllist[PKM.Ball]}",
+            DisplayedInfo.Ball => $"**Pokebola:** {GameInfo.Strings.balllist[PKM.Ball]}",
 
             DisplayedInfo.EVs => GetEVString(),
 
-            DisplayedInfo.Form when PKM.Form > 0 && Strings.HasForm => $"**Form:** {Strings.Form}",
+            DisplayedInfo.Form when PKM.Form > 0 && Strings.HasForm => $"**Forma:** {Strings.Form}",
 
-            DisplayedInfo.Friendship => $"**Friendship:** {PKM.CurrentFriendship}",
+            DisplayedInfo.Friendship => $"**Amistad:** {PKM.CurrentFriendship}",
 
-            DisplayedInfo.Gigantamax when PKM is IGigantamax gmax && gmax.CanGigantamax => "**Gigantamax:** Yes",
+            DisplayedInfo.Gigantamax when PKM is IGigantamax gmax && gmax.CanGigantamax => "**Gigantamax:** Sí",
 
             DisplayedInfo.GVs when PKM is IGanbaru ganbaru => GetGanbaruValuesString(ganbaru),
 
-            DisplayedInfo.Height when PKM is IScaledSize scaled => $"**Height:** {scaled.HeightScalar}",
+            DisplayedInfo.Height when PKM is IScaledSize scaled => $"**Altura:** {scaled.HeightScalar}",
 
-            DisplayedInfo.HeldItem when Strings.HasItem => $"**Held Item:** {Strings.HeldItem}",
+            DisplayedInfo.HeldItem when Strings.HasItem => $"**Objeto Equipado:** {Strings.HeldItem}",
 
             DisplayedInfo.IVs => GetIVString(),
 
-            DisplayedInfo.Language => $"**Language:** {(LanguageID)PKM.Language}",
+            DisplayedInfo.Language => $"**Idioma:** {(LanguageID)PKM.Language}",
 
-            DisplayedInfo.Level => $"**Level:** {PKM.CurrentLevel}",
+            DisplayedInfo.Level => $"**Nivel:** {PKM.CurrentLevel}",
 
             DisplayedInfo.Mark when Strings.Mark.HasMark => $"**Mark:** {Strings.Mark.Name}",
 
             DisplayedInfo.Moves => string.Join(Environment.NewLine, Strings.Moves),
 
-            DisplayedInfo.Nature => $"**Nature:** {Strings.Nature}",
+            DisplayedInfo.Nature => $"**Naturaleza:** {Strings.Nature}",
 
-            DisplayedInfo.Nickname when !string.IsNullOrEmpty(PKM.Nickname) && PKM.Nickname != GameInfo.Strings.Species[PKM.Species] => $"**Nickname:** {PKM.Nickname}",
+            DisplayedInfo.Nickname when !string.IsNullOrEmpty(PKM.Nickname) && PKM.Nickname != GameInfo.Strings.Species[PKM.Species] => $"**Apodo:** {PKM.Nickname}",
 
-            DisplayedInfo.Scale => $"**Scale:** {Strings.Scale}",
+            DisplayedInfo.Scale => $"**Escala:** {Strings.Scale}",
 
-            DisplayedInfo.Shiny when PKM.IsShiny => $"**Shiny:** {(PKM is PK8 ? PKM.ShinyXor == 0 ? "Square" : "Star" : "Yes")}",
+            DisplayedInfo.Shiny when PKM.IsShiny => $"**Brillante:** {(PKM is PK8 ? PKM.ShinyXor == 0 ? "Square" : "Star" : "Sí")}",
 
             DisplayedInfo.Species => $"**{Strings.Shiny}{Strings.Species}{Strings.Gender}**",
 
@@ -170,15 +170,15 @@ public class TradeEmbedBuilder<T>(T PKM, PokeTradeHub<T> Hub, QueueUser trader, 
             DisplayedInfo.SpeciesFormMarkHeldItem when Strings.HasForm => $"**{Strings.Shiny}{Strings.Species}-{Strings.Form}{Strings.Gender}**",
             DisplayedInfo.SpeciesFormMarkHeldItem => $"**{Strings.Shiny}{Strings.Species}{Strings.Gender}**",
 
-            DisplayedInfo.StatNature when PKM.StatNature != PKM.Nature => $"**Stat Nature:** {PKM.StatNature}",
+            DisplayedInfo.StatNature when PKM.StatNature != PKM.Nature => $"**Naturaleza (Estadisticas):** {PKM.StatNature}",
 
             DisplayedInfo.Sweet when PKM.Species is (ushort)Species.Alcremie => $"**Sweet:** {Strings.FormArgument}",
 
-            DisplayedInfo.TeraType when Strings.HasTeraType => $"**Tera Type:** {Strings.TeraType}",
+            DisplayedInfo.TeraType when Strings.HasTeraType => $"**Teratipo:** {Strings.TeraType}",
 
-            DisplayedInfo.TeraTypeOverride when PKM is ITeraType tera && tera.TeraTypeOverride != tera.TeraType => $"**Tera Type Override:** {tera.TeraTypeOverride}",
+            DisplayedInfo.TeraTypeOverride when PKM is ITeraType tera && tera.TeraTypeOverride != tera.TeraType => $"**Teratipo (cambiado):** {tera.TeraTypeOverride}",
 
-            DisplayedInfo.Weight when PKM is IScaledSize scaled => $"**Weight:** {scaled.WeightScalar}",
+            DisplayedInfo.Weight when PKM is IScaledSize scaled => $"**Peso:** {scaled.WeightScalar}",
 
             _ => ""
         };
@@ -211,11 +211,11 @@ public class TradeEmbedBuilder<T>(T PKM, PokeTradeHub<T> Hub, QueueUser trader, 
             return "**IVs:** 6IV";
 
         if (ivList.Count == 0 && ivsHyperTrained)
-            return "**IVs:** 6IV (HyperTrained)";
+            return "**IVs:** 6IV (Entrenado al máximo)";
 
         string ivString = string.Join(" / ", ivList);
         if (ivsHyperTrained)
-            ivString += " (HyperTrained)";
+            ivString += " (Entrenado al máximo)";
 
         return "**IVs:** " + ivString;
     }
@@ -284,18 +284,18 @@ public class TradeEmbedBuilder<T>(T PKM, PokeTradeHub<T> Hub, QueueUser trader, 
         {
             var position = Hub.Queues.Info.CheckPosition(trader.UID, rType);
             var botCount = Hub.Queues.Info.Hub.Bots.Count;
-            footerText += $"Current Position: {position.Position}";
+            footerText += $"Posición Actual: {position.Position}";
 
             if (position.Position > botCount)
             {
                 var eta = Hub.Config.Queues.EstimateDelay(position.Position, botCount);
-                footerText += $"{Environment.NewLine}Estimated wait time: {eta:F1} minutes.";
+                footerText += $"{Environment.NewLine}Tiempo de espera estimado: {eta:F1} minutos.";
             }
         }
         else if (type is TradeEmbedDisplay.TradeComplete)
         {
             footerText += $"OT: {PKM.OriginalTrainerName} | TID: {PKM.DisplayTID}" +
-                          $"{Environment.NewLine}Trade finished. Enjoy your Pokémon!";
+                          $"{Environment.NewLine}Intercambio Terminado. ¡Disfruta tu Pokémon!";
         }
         var imgURL = Strings.GetMarkImageURL();
         return new EmbedFooterBuilder { Text = footerText, IconUrl = imgURL };

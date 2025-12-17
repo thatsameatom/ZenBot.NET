@@ -1,4 +1,5 @@
 using PKHeX.Core;
+using System.Text;
 
 namespace SysBot.Pokemon.Discord;
 
@@ -6,6 +7,8 @@ internal class PKMStringWrapper<T>(T PKM, TradeEmbedSettings Config, PokeTradeTy
 {
     protected GameStrings GameStrings =>
         GameInfo.GetStrings(Language.GetLanguageCode(Config.ForceEmbedLanguage is LanguageID.None ? (LanguageID)PKM.Language : Config.ForceEmbedLanguage));
+
+    private GameStrings EnglishStrings => GameInfo.GetStrings("en");
 
     internal string Species => GetSpeciesString();
     internal string Form => GetFormString();
@@ -125,14 +128,32 @@ internal class PKMStringWrapper<T>(T PKM, TradeEmbedSettings Config, PokeTradeTy
     {
         return type switch
         {
-            PokeTradeType.Clone => "Cloning Pod Activated",
-            PokeTradeType.Dump => "Pokémon Scanner Activated",
-            PokeTradeType.ItemTrade => $"{trader}'s {HeldItem}",
-            PokeTradeType.MysteryEgg => $"{trader}'s Mystery Egg",
-            PokeTradeType.Seed => $"Seed Checker Activated",
-            PokeTradeType.Specific or PokeTradeType.Giveaway => $"{trader}'s {(PKM.IsShiny ? "Shiny Pokémon" : $"Pokémon {(PKM.IsEgg ? "Egg" : "")}")}",
+            PokeTradeType.Clone => "Cápsula de Clonación Activada",
+            PokeTradeType.Dump => "Escaner de Pokémon Activado",
+            PokeTradeType.ItemTrade => $"{HeldItem} de {trader}",
+            PokeTradeType.MysteryEgg => $"Huevo Misterioso de {trader}",
+            PokeTradeType.Seed => $"Chequeo de Semilla de {trader}",
+            PokeTradeType.Specific or PokeTradeType.Giveaway => GetPokemonDescription(trader),
             _ => string.Empty
         };
+    }
+
+    private string GetPokemonDescription(string trader)
+    {
+        if (PKM.IsEgg)
+            return $"Huevo Pokémon de {trader}";
+
+        var sb = new StringBuilder("Pokémon");
+
+        if (PKM is PA8 { IsAlpha: true } or PA9 { IsAlpha: true })
+            sb.Append(" Alfa");
+
+        // Detectar si es Shiny
+        if (PKM.IsShiny)
+            sb.Append(" Brillante");
+
+        sb.Append($" de {trader}");
+        return sb.ToString();
     }
 
     internal string GetImageURL()
@@ -153,11 +174,11 @@ internal class PKMStringWrapper<T>(T PKM, TradeEmbedSettings Config, PokeTradeTy
     {
         return type switch
         {
-            PokeTradeType.Specific => HasItem ? GetItemImgURL(HeldItem, false) : string.Empty,
+            PokeTradeType.Specific => HasItem ? GetItemImgURL(PKM.HeldItem, true) : string.Empty,
             PokeTradeType.Clone => "https://raw.githubusercontent.com/Omni-KingZeno/Pokemon-Sprites/refs/heads/main/Bot/clone.png",
             PokeTradeType.Dump => "https://raw.githubusercontent.com/Omni-KingZeno/Pokemon-Sprites/refs/heads/main/Bot/dump.gif",
             PokeTradeType.MysteryEgg => "https://raw.githubusercontent.com/Omni-KingZeno/HomeImages/refs/heads/main/Sprites/128x128/MysteryEgg.png",
-            PokeTradeType.ItemTrade => GetItemImgURL(HeldItem, false),
+            PokeTradeType.ItemTrade => GetItemImgURL(PKM.HeldItem, false),
             PokeTradeType.Seed => "https://github.com/Omni-KingZeno/Pokemon-Sprites/blob/main/Bot/seedcheck.gif?raw=true",
             _ => string.Empty,
         };
@@ -172,18 +193,20 @@ internal class PKMStringWrapper<T>(T PKM, TradeEmbedSettings Config, PokeTradeTy
     internal string GetMarkImageURL() =>
        PKM is PA9 { IsAlpha: true } or PA8 { IsAlpha: true } ? "https://www.serebii.net/pokearth/hisui/icons/alphaza.png" : Mark.HasMark ? $"https://www.serebii.net/scarletviolet/ribbons/{(Mark.Name.ToLower())}mark.png" : string.Empty;
 
-    internal string GetItemImgURL(string item, bool smallsize)
+    internal string GetItemImgURL(int item, bool smallsize)
     {
-        item = item.Replace(" ", "").ToLower();
+        // Recuperamos el nombre en Inglés usando el ID del item
+        var itemName = EnglishStrings.Item[item];
+        itemName = itemName.Replace(" ", "").ToLower();
 
         string? baseLink;
         if (smallsize)
         {
-            baseLink = $"https://www.serebii.net/itemdex/sprites/{item}.png";
+            baseLink = $"https://www.serebii.net/itemdex/sprites/{itemName}.png";
         }
         else
         {
-            baseLink = $"https://www.serebii.net/itemdex/sprites/sv/{item}.png";
+            baseLink = $"https://www.serebii.net/itemdex/sprites/sv/{itemName}.png";
         }
         return baseLink;
     }

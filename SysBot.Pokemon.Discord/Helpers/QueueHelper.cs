@@ -28,7 +28,7 @@ public static class QueueHelper<T> where T : PKM, new()
 
         try
         {
-            const string helper = "I've added you to the queue! I'll message you here when your trade is starting.";
+            const string helper = "¡Te he añadido a la cola! Te avisaré por aquí cuando tu intercambio este por empezar.";
             IUserMessage test = await trader.SendMessageAsync(helper).ConfigureAwait(false);
 
             // Try adding
@@ -50,17 +50,27 @@ public static class QueueHelper<T> where T : PKM, new()
             // Notify in PM to mirror what was said in the channel.
             if (result)
             {
-                msg += $"\nYour trade code will be {(typeof(T) == typeof(PB7) ? "" : $"**{code:0000 0000}**.")}";
+                // msg += $"\nYour trade code will be {(typeof(T) == typeof(PB7) ? "" : $"**{code:0000 0000}**.")}";
 
                 if (typeof(T) == typeof(PB7))
                 {
+
+                    msg += "\nTu código de intercambio será:"; 
                     var codes = PictoCodesExtensions.GetPictoCodesFromLinkCode(code);
                     var (attachment, embedPicto) = PictoCodesEmbedBuilder.CreatePictoCodesEmbed(codes);
-                    await trader.SendFileAsync(attachment, $"{msg}\nYour trade code will be ", false, embedPicto.Build()).ConfigureAwait(false);
+                    await trader.SendFileAsync(attachment, $"{msg}", false, embedPicto.Build()).ConfigureAwait(false);
                 }
                 else
                 {
-                    await trader.SendMessageAsync($"{msg + receiving}").ConfigureAwait(false);
+                    var embedCode = new EmbedBuilder()
+                        .WithTitle("Tu código de intercambio será:")
+                        .WithDescription($"# {code:0000 0000}")
+                        .WithColor(Color.Green)
+                        .WithTimestamp(DateTimeOffset.Now)
+                        .WithThumbnailUrl("https://raw.githubusercontent.com/thatsameatom/sprites/refs/heads/main/chara_002_main_m_n_c.webp")
+                        .Build();
+
+                    await trader.SendMessageAsync($"{msg + receiving}", embed: embedCode).ConfigureAwait(false);
                 }
             }
 
@@ -113,7 +123,7 @@ public static class QueueHelper<T> where T : PKM, new()
 
         if (added == QueueResultAdd.AlreadyInQueue)
         {
-            msg = "Sorry, you are already in the queue.";
+            msg = "Lo siento, ya estas en la cola.";
             receiving = string.Empty;
             embed = null;
             return false;
@@ -123,28 +133,28 @@ public static class QueueHelper<T> where T : PKM, new()
 
         var ticketID = string.Empty;
         if (TradeStartModule<T>.IsStartChannel(context.Channel.Id))
-            ticketID = $", unique ID: {detail.ID}";
+            ticketID = $", ID Único: {detail.ID}";
 
         var strings = GameInfo.GetStrings("en");
         receiving = t switch
         {
-            PokeTradeType.MysteryEgg => " Receiving: Mystery Egg.",
-            PokeTradeType.ItemTrade => $" Receiving: {strings.itemlist[pk.HeldItem]}.",
-            PokeTradeType.Specific or PokeTradeType.Giveaway => $" Receiving: {strings.Species[pk.Species]}.",
+            PokeTradeType.MysteryEgg => " Recibiendo: Mystery Egg.",
+            PokeTradeType.ItemTrade => $" Recibiendo: {strings.itemlist[pk.HeldItem]}.",
+            PokeTradeType.Specific or PokeTradeType.Giveaway => $" Recibiendo: {strings.Species[pk.Species]}.",
             _ => string.Empty
         };
-        msg = $"{user.Mention} - Added to the {type} queue{ticketID}. ";
+        msg = $"{user.Mention} - Añadido a la cola de {type}{ticketID}.";
 
         embed = new TradeEmbedBuilder<T>(pk, hub, new QueueUser(trainer.ID, name), type, t);
 
         if (hub.Config.Discord.UseTradeEmbeds is not TradeEmbedDisplay.TradeInitialize)
         {
-            msg += $"Current Position: {position.Position}.";
+            msg += $"Posición Actual: {position.Position}.";
             var botct = Info.Hub.Bots.Count;
             if (position.Position > botct)
             {
                 var eta = Info.Hub.Config.Queues.EstimateDelay(position.Position, botct);
-                msg += $" Estimated: {eta:F1} minutes.";
+                msg += $" Estimado: {eta:F1} minutos.";
             }
         }
 
@@ -192,12 +202,12 @@ public static class QueueHelper<T> where T : PKM, new()
             case DiscordErrorCode.CannotSendMessageToUser:
                 {
                     // The user either has DMs turned off, or Discord thinks they do.
-                    message = context.User == trader ? $"{context.User.Mention}\nYou must enable Direct Messages in order for me to DM your trade code!" : "The mentioned user must enable private messages in order for me to DM them their trade code!";
+                    message = context.User == trader ? $"{context.User.Mention}\n¡Debes habilitar los mensajes directos para que pueda enviarte tu código de intercambio!" : "The mentioned user must enable private messages in order for me to DM them their trade code!";
                     if (context.User == trader)
                         hub.Queues.Info.ClearTrade(context.User.Id);
                     else
                         hub.Queues.Info.ClearTrade(trader.Id);
-                    embedBuilder.Title = "Privacy Error";
+                    embedBuilder.Title = "Error de Privacidad";
                 }
                 break;
             default:

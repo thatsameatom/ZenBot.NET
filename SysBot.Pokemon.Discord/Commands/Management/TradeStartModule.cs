@@ -86,12 +86,12 @@ public class TradeStartModule<T> : ModuleBase<SocketCommandContext> where T : PK
 
         var pokemonName = detail.Type switch
         {
-            PokeTradeType.ItemTrade  => $"**Sending:** {Strings.HeldItem}",
-            PokeTradeType.MysteryEgg => "**Sending:** Mystery Egg",
-            PokeTradeType.Clone      => "**Activating:** Cloning Pod",
-            PokeTradeType.Dump       => "**Activating:** Pokémon Scanner",
-            PokeTradeType.Seed       => "**Activating:** Seed Checker",
-            _                        => $"**Sending:** {Strings.Species}{(Strings.HasForm ? $"-{Strings.Form}" : "")}"
+            PokeTradeType.ItemTrade => $"**Enviando:** {Strings.HeldItem}",
+            PokeTradeType.MysteryEgg => "**Enviando:** Huevo Misterioso",
+            PokeTradeType.Clone => "**Activating:** Cloning Pod",
+            PokeTradeType.Dump => "**Activating:** Pokémon Scanner",
+            PokeTradeType.Seed => "**Activating:** Seed Checker",
+            _ => $"**Sending:** {Strings.Species}{(Strings.HasForm ? $"-{Strings.Form}" : "")}"
         };
 
         var color = detail.TradeData.Species == 0 ? Color.Purple
@@ -104,14 +104,14 @@ public class TradeStartModule<T> : ModuleBase<SocketCommandContext> where T : PK
             : detail.Trainer.ID == 0 ? "https://raw.githubusercontent.com/Omni-KingZeno/Pokemon-Sprites/refs/heads/main/Bot/Discord.png"
             : Client.GetUser(detail.Trainer.ID).GetAvatarUrl();
 
-        var thumbnailUrl = detail.Type == PokeTradeType.ItemTrade ? Strings.GetItemImgURL(Strings.HeldItem, false) : Strings.GetImageURL();
+        var thumbnailUrl = detail.Type == PokeTradeType.ItemTrade ? Strings.GetItemImgURL(detail.TradeData.HeldItem, false) : Strings.GetImageURL();
         var footerURL = detail.Type == PokeTradeType.ItemTrade ? Strings.GetImageURL() : detail.TradeData.Species == 0 ? null : Strings.GetBallImageURL();
 
         return new EmbedBuilder()
-            .WithAuthor("Trade Started", iconUrl: avatarUrl)
-            .WithDescription($"{pokemonName}\n**Trader:** {detail.Trainer.TrainerName}")
+            .WithAuthor("Intercambio Iniciado", iconUrl: avatarUrl)
+            .WithDescription($"{pokemonName}\n**Entrenador:** {detail.Trainer.TrainerName}")
             .WithColor(color)
-            .WithFooter($"Trade ID: {detail.ID}", footerURL)
+            .WithFooter($"ID del intercambio: {detail.ID}", footerURL)
             .WithThumbnailUrl(thumbnailUrl)
             .Build();
     }

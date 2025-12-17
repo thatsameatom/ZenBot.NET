@@ -67,11 +67,11 @@ public static class ReusableActions
         var url = (string)method!.Invoke(null, [pkm, pkm is IGigantamax g && g.CanGigantamax, false, false])!;
         var la = new LegalityAnalysis(pkm);
         var embed = new EmbedBuilder()
-            .WithTitle("Here's what you showed me!")
+            .WithTitle("Aquí tienes lo que me mostraste")
             .WithDescription(txt)
             .WithColor(color)
             .WithThumbnailUrl(url)
-            .WithFooter(la.Valid ? "This Pokémon is legal" : "This Pokémon is not legal", la.Valid ? "https://raw.githubusercontent.com/Omni-KingZeno/Pokemon-Sprites/refs/heads/main/Bot/check.png" : "https://raw.githubusercontent.com/Omni-KingZeno/Pokemon-Sprites/refs/heads/main/Bot/x.png");
+            .WithFooter(la.Valid ? "Este Pokémon es legal" : "Este Pokémon no es legal", la.Valid ? "https://raw.githubusercontent.com/Omni-KingZeno/Pokemon-Sprites/refs/heads/main/Bot/check.png" : "https://raw.githubusercontent.com/Omni-KingZeno/Pokemon-Sprites/refs/heads/main/Bot/x.png");
 
         await channel.SendMessageAsync(embed: embed.Build()).ConfigureAwait(false);
     }
