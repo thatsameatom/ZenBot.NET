@@ -20,17 +20,17 @@ public sealed record QueueCheckResult<T>(
         if (!InQueue || Detail is null)
             return "No estas en la cola.";
         var position = $"{Position}/{QueueCount}";
-        var msg = $"Estas eb la cola de {Detail.Type}! Posición: {position} (ID {Detail.Trade.ID})";
+        var msg = $"Estas en la cola de {Detail.Type}! Posición: {position} (ID {Detail.Trade.ID})";
         var pk = Detail.Trade.TradeData;
         var strings = GameInfo.GetStrings("en");
         var receiving = Detail.Trade.Type switch
         {
-            PokeTradeType.MysteryEgg => "Mystery Egg",
+            PokeTradeType.MysteryEgg => "Huevo Misterioso",
             PokeTradeType.ItemTrade => strings.itemlist[pk.HeldItem],
             _ => strings.Species[pk.Species]
         };
         if (pk.Species != 0)
-            msg += $", Receiving: {receiving}";
+            msg += $", Recibiendo: {receiving}";
         return msg;
     }
 }

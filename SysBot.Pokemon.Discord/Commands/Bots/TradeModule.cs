@@ -196,16 +196,26 @@ public class TradeModule<T> : ModuleBase<SocketCommandContext> where T : PKM, ne
             {
                 var reason = result switch
                 {
-                    LegalizationResult.Timeout => $"That {spec} set took too long to generate.",
+                    LegalizationResult.Timeout => $"Ese set de {spec} demoró mucho en generarse.",
                     LegalizationResult.VersionMismatch => "Request refused: PKHeX and Auto-Legality Mod version mismatch.",
-                    _ => $"I wasn't able to create a {spec} from that set.",
+                    _ => $"No pude crear un {spec} con esos datos.",
                 };
-                var imsg = $"Oops! {reason}";
+                var embed = new EmbedBuilder()
+                    .WithTitle("Error en la solicitud de intercambio")
+                    .WithColor(Color.Red) // Barra lateral roja como en la foto
+                    .AddField("Estado", $"No pude generar un {spec}.")
+                    .AddField("Razón", reason);
+
                 if (result == LegalizationResult.Failed)
-                    imsg += $"\n{AutoLegalityWrapper.GetLegalizationHint(template, sav, pkm)}";
-                await ReplyAsync(imsg).ConfigureAwait(false);
+                {
+                    var hint = AutoLegalityWrapper.GetLegalizationHint(template, sav, pkm);
+                    embed.AddField("Pista", hint);
+                }
+
+                await ReplyAsync(embed: embed.Build()).ConfigureAwait(false);
                 return;
             }
+            
             pk.ResetPartyStats();
 
             var sig = user.GetFavor();
