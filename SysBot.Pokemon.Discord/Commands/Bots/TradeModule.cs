@@ -197,27 +197,25 @@ public class TradeModule<T> : ModuleBase<SocketCommandContext> where T : PKM, ne
                 var reason = result switch
                 {
                     LegalizationResult.Timeout => $"La generación de {spec} tardó demasiado tiempo.",
-                    LegalizationResult.VersionMismatch => "Solicitud rechazada: Error de versión entre PKHeX y Auto-Legality Mod.",
-                    _ => $"No pude crear un {spec} con esos datos.",
+                    LegalizationResult.VersionMismatch => "Solicitud rechazada: Conflicto de versiones (PKHeX/ALM).",
+                    _ => $"No pude crear un {spec} a partir de ese set.",
                 };
 
-                // Construcción del Embed en español
+                // Construimos el Embed
                 var embed = new EmbedBuilder()
-                    .WithTitle("Error al Crear el Intercambio")
-                    .WithDescription($"{Context.User.Mention}, hubo un problema con tu solicitud.")
-                    .WithColor(Color.Red) // Color rojo para indicar error
-                    .AddField("Estado", $"No se pudo crear a {spec}.")
+                    .WithTitle("Error en la solicitud de Intercambio")
+                    .WithColor(Color.Red)
+                    .AddField("Estado", $"Fallo al crear {spec}")
                     .AddField("Motivo", reason);
 
-                // Si hay una pista (hint) de por qué falló la legalidad, se añade
                 if (result == LegalizationResult.Failed)
                 {
                     var hint = AutoLegalityWrapper.GetLegalizationHint(template, sav, pkm);
-                    // Traducimos el título del campo a "Sugerencia" o "Error de Legalidad"
-                    embed.AddField("Pista / Sugerencia", hint);
+                    embed.AddField("Pista de Legalidad", hint);
                 }
 
-                await ReplyAsync(embed: embed.Build()).ConfigureAwait(false);
+                // Aquí enviamos la mención fuera del embed y el embed adjunto
+                await ReplyAsync($"{Context.User.Mention}, hubo un problema con tu solicitud:", embed: embed.Build()).ConfigureAwait(false);
                 return;
             }
 
