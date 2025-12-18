@@ -203,7 +203,7 @@ public class TradeModule<T> : ModuleBase<SocketCommandContext> where T : PKM, ne
                 var embed = new EmbedBuilder()
                     .WithTitle("Error en la solicitud de intercambio")
                     .WithColor(Color.Red) // Barra lateral roja como en la foto
-                    .AddField("Estado", $"No pude generar un {spec}.")
+                    .AddField("Estado", $"No pude generar ese {spec}.")
                     .AddField("Razón", reason);
 
                 if (result == LegalizationResult.Failed)
@@ -215,7 +215,7 @@ public class TradeModule<T> : ModuleBase<SocketCommandContext> where T : PKM, ne
                 await ReplyAsync(embed: embed.Build()).ConfigureAwait(false);
                 return;
             }
-            
+
             pk.ResetPartyStats();
 
             var sig = user.GetFavor();
