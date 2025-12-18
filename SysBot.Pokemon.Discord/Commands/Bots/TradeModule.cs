@@ -196,20 +196,25 @@ public class TradeModule<T> : ModuleBase<SocketCommandContext> where T : PKM, ne
             {
                 var reason = result switch
                 {
-                    LegalizationResult.Timeout => $"Ese set de {spec} demoró mucho en generarse.",
-                    LegalizationResult.VersionMismatch => "Request refused: PKHeX and Auto-Legality Mod version mismatch.",
+                    LegalizationResult.Timeout => $"La generación de {spec} tardó demasiado tiempo.",
+                    LegalizationResult.VersionMismatch => "Solicitud rechazada: Error de versión entre PKHeX y Auto-Legality Mod.",
                     _ => $"No pude crear un {spec} con esos datos.",
                 };
-                var embed = new EmbedBuilder()
-                    .WithTitle("Error en la solicitud de intercambio")
-                    .WithColor(Color.Red) // Barra lateral roja como en la foto
-                    .AddField("Estado", $"No pude generar ese {spec}.")
-                    .AddField("Razón", reason);
 
+                // Construcción del Embed en español
+                var embed = new EmbedBuilder()
+                    .WithTitle("Error al Crear el Intercambio")
+                    .WithDescription($"{Context.User.Mention}, hubo un problema con tu solicitud.")
+                    .WithColor(Color.Red) // Color rojo para indicar error
+                    .AddField("Estado", $"No se pudo crear a {spec}.")
+                    .AddField("Motivo", reason);
+
+                // Si hay una pista (hint) de por qué falló la legalidad, se añade
                 if (result == LegalizationResult.Failed)
                 {
                     var hint = AutoLegalityWrapper.GetLegalizationHint(template, sav, pkm);
-                    embed.AddField("Pista", hint);
+                    // Traducimos el título del campo a "Sugerencia" o "Error de Legalidad"
+                    embed.AddField("Pista / Sugerencia", hint);
                 }
 
                 await ReplyAsync(embed: embed.Build()).ConfigureAwait(false);
