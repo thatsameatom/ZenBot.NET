@@ -145,10 +145,10 @@ public static class AutoLegalityWrapper
         }
 
         if (TradeRestrictions.IsUntradableHeld(pk.Context, pk.HeldItem))
-            return (false, "That held item cannot be traded!");
+            return (false, "ese objeto no puede ser enviado por Intercambio");
 
         if (TradeRestrictions.IsUntradable(pk.Species, pk.Form, pk is IFormArgument f ? f.FormArgument : 0, pk.Format))
-            return (false, "That form cannot be traded!");
+            return (false, "esa forma no puede ser intercambiada!");
 
         return (true, string.Empty);
     }
